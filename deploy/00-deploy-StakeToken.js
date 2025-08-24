@@ -8,7 +8,7 @@ module.exports = async ({ getNamedAccounts, deployments, run }) => {
   // 部署 StakeTokenERC20 合约
   const stakeToken = await deploy("StakeTokenERC20", {
     from: deployer,
-    args: [],
+    args: [deployer],
     // waitConfirmations: 5,
     log: true,
   });
