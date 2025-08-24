@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("@openzeppelin/hardhat-upgrades");
 require("dotenv").config({ path: [".env.local", ".env"] });
 require("hardhat-deploy");
 
@@ -23,7 +24,14 @@ module.exports = {
         process.env.PRIVATE_KEY_3,
       ],
       chainId: 11155111,
-      timeout: 100000,
+      timeout: 120000, // 增加超时时间到 2 分钟
+      gasPrice: "auto",
+      gas: "auto",
+      // 添加重试配置
+      retry: {
+        attempts: 3,
+        interval: 1000,
+      },
     },
   },
   etherscan: {
