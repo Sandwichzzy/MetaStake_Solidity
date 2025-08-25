@@ -1,9 +1,10 @@
-const METANODE_PERBLOCK = "20000000000000000";
-const START_BLOCK = 6529999;
-const END_BLOCK = 9529999;
-const TEST_POOL_WEIGHT = "1000000000000000000";
-const MIN_DEPOSIT_AMOUNT = "0";
-const UNSTAKE_LOCKED_BLOCKS = 2;
+const { ethers } = require("hardhat");
+const METANODE_PERBLOCK = ethers.parseEther("0.5");
+const START_BLOCK = 0; // 从区块0开始，适合测试环境
+const END_BLOCK = 1000000; // 足够大的结束区块号
+const TEST_POOL_WEIGHT = ethers.parseEther("1");
+const MIN_DEPOSIT_AMOUNT = ethers.parseEther("0.1");
+const UNSTAKE_LOCKED_BLOCKS = 5;
 
 module.exports = {
   METANODE_PERBLOCK,

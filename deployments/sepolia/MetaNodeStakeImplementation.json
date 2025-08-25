@@ -1,5 +1,5 @@
 {
-  "address": "0x5Fa3533c7C092eE18a6cB1B3d04Ea4F14a8cde0e",
+  "address": "0xfCc1650966252cc26C1b8F77aAAb3b429Bb16387",
   "abi": [
     {
       "inputs": [],
@@ -756,6 +756,64 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUserUnstakeRequest",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "unlockBlocks",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserUnstakeRequestsCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bytes32",
           "name": "role",
           "type": "bytes32"
@@ -1341,5 +1399,5 @@
       "type": "function"
     }
   ],
-  "numDeployments": 2
+  "numDeployments": 3
 }

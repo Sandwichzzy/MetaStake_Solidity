@@ -1,5 +1,9 @@
 const { ethers, deployments } = require("hardhat");
-const { UNSTAKE_LOCKED_BLOCKS } = require("../helper-hardhat-config");
+const {
+  UNSTAKE_LOCKED_BLOCKS,
+  TEST_POOL_WEIGHT,
+  MIN_DEPOSIT_AMOUNT,
+} = require("../helper-hardhat-config");
 
 /**
  * 标准测试设置 - 为所有测试文件提供一致的初始环境
@@ -73,8 +77,8 @@ async function initializePools(contracts) {
   const tokenAddress = stakeToken.target || stakeToken.address;
   await metaNodeStakeProxy.addPool(
     tokenAddress, // ERC20 token address
-    ethers.parseEther("1"), // pool weight
-    ethers.parseEther("0.1"), // min deposit amount
+    TEST_POOL_WEIGHT, // pool weight
+    MIN_DEPOSIT_AMOUNT, // min deposit amount
     UNSTAKE_LOCKED_BLOCKS, // unstake locked blocks
     false
   );
@@ -152,10 +156,91 @@ async function approveTokens(stakeToken, user, spender, amount) {
   await stakeToken.connect(user).approve(spenderAddress, amount);
 }
 
+/**
+ * 推进指定数量的区块 - 用于测试时间依赖的功能
+ * @param {number} blocks - 要推进的区块数量
+ */
+async function advanceBlocks(blocks) {
+  for (let i = 0; i < blocks; i++) {
+    await ethers.provider.send("evm_mine", []);
+  }
+}
+
+/**
+ * 推进到指定的区块号
+ * @param {number} targetBlock - 目标区块号
+ */
+async function advanceToBlock(targetBlock) {
+  const currentBlock = await ethers.provider.getBlockNumber();
+  const blocksToAdvance = targetBlock - currentBlock;
+
+  if (blocksToAdvance > 0) {
+    await advanceBlocks(blocksToAdvance);
+  }
+}
+
+/**
+ * 推进指定的时间（秒）
+ * @param {number} seconds - 要推进的秒数
+ */
+async function advanceTime(seconds) {
+  await ethers.provider.send("evm_increaseTime", [seconds]);
+  await ethers.provider.send("evm_mine", []);
+}
+
+/**
+ * 推进时间和区块
+ * @param {number} seconds - 要推进的秒数
+ * @param {number} blocks - 要推进的区块数量
+ */
+async function advanceTimeAndBlocks(seconds, blocks) {
+  await ethers.provider.send("evm_increaseTime", [seconds]);
+  await advanceBlocks(blocks);
+}
+
+/**
+ * 获取当前区块号
+ */
+async function getCurrentBlock() {
+  return await ethers.provider.getBlockNumber();
+}
+
+/**
+ * 获取当前时间戳
+ */
+async function getCurrentTimestamp() {
+  const block = await ethers.provider.getBlock("latest");
+  return block.timestamp;
+}
+
+/**
+ * 重置Hardhat网络到初始状态
+ */
+async function resetNetwork() {
+  await ethers.provider.send("hardhat_reset", []);
+}
+
+/**
+ * 设置下一个区块的时间戳
+ * @param {number} timestamp - 目标时间戳
+ */
+async function setNextBlockTimestamp(timestamp) {
+  await ethers.provider.send("evm_setNextBlockTimestamp", [timestamp]);
+}
+
 module.exports = {
   setupTestEnvironment,
   initializePools,
   distributeTestTokens,
   setupCompleteTestEnvironment,
   approveTokens,
+  // 新增的区块和时间操作函数
+  advanceBlocks,
+  advanceToBlock,
+  advanceTime,
+  advanceTimeAndBlocks,
+  getCurrentBlock,
+  getCurrentTimestamp,
+  resetNetwork,
+  setNextBlockTimestamp,
 };

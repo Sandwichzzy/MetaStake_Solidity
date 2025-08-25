@@ -80,12 +80,15 @@ describe("MetaNodeStake StakePool Management", () => {
         false
       );
 
+      // 获取当前区块号来验证 lastRewardBlock
+      const currentBlock = await ethers.provider.getBlockNumber();
+
       await expect(tx)
         .to.emit(contracts.metaNodeStakeProxy, "AddPool")
         .withArgs(
           contracts.stakeToken.target, // stTokenAddress
           TEST_POOL_WEIGHT, // poolWeight
-          await contracts.metaNodeStakeProxy.startBlock(), // lastRewardBlock (因为 block.number < startBlock)
+          currentBlock, // lastRewardBlock (当前区块号，因为 block.number >= startBlock)
           MIN_DEPOSIT_AMOUNT, // minDepositAmount
           UNSTAKE_LOCKED_BLOCKS // unstakeLockedBlocks
         );
@@ -211,9 +214,9 @@ describe("MetaNodeStake StakePool Management", () => {
 
     it("should initialize pool with correct default values", async () => {
       const pool = await contracts.metaNodeStakeProxy.pool(poolId);
-      expect(pool.lastRewardBlock).to.equal(
-        await contracts.metaNodeStakeProxy.startBlock()
-      );
+      // lastRewardBlock 应该是当前区块号（因为 block.number >= startBlock）
+      const currentBlock = await ethers.provider.getBlockNumber();
+      expect(pool.lastRewardBlock).to.equal(currentBlock);
       expect(pool.accMetaNodePerST).to.equal(0);
       expect(pool.stTokenAmount).to.equal(0);
       expect(pool.poolWeight).to.equal(TEST_POOL_WEIGHT);

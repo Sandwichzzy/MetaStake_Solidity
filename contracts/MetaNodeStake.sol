@@ -380,7 +380,7 @@ contract MetaNodeStake is
         }
 
         return user_.stAmount * accMetaNodePerST / (1 ether) - user_.finishedMetaNode + user_.pendingMetaNode;  
-        //finishedMetaNode 用户已经领取的MetaNode奖励，pendingMetaNode 用户待领取的MetaNode奖励
+        //finishedMetaNode 分配给用户的MetaNode奖励，pendingMetaNode 用户待领取的MetaNode奖励
         //除以1ether，因为stAmount 和 accMetaNodePerST都是以1*10^18为单位
     }
 
@@ -403,6 +403,25 @@ contract MetaNodeStake is
             }
             requestAmount = requestAmount + user_.requests[i].amount;
         }
+    }
+
+    /**
+     * @notice Get user's unstake requests count 动态数组在 ABI 中无法直接返回
+     */
+    function getUserUnstakeRequestsCount(uint256 _pid, address _user) public checkPid(_pid) view returns(uint256) {
+        return user[_pid][_user].requests.length;
+    }
+
+    /**
+     * @notice Get user's specific unstake request
+     */
+    function getUserUnstakeRequest(uint256 _pid, address _user, uint256 _index) public checkPid(_pid) view returns(uint256 amount, uint256 unlockBlocks) {
+        User storage user_ = user[_pid][_user];
+        require(_index < user_.requests.length, "Invalid request index");
+        
+        UnstakeRequest storage request = user_.requests[_index];
+        amount = request.amount;
+        unlockBlocks = request.unlockBlocks;
     }
 
     // ************************************** PUBLIC FUNCTION **************************************
@@ -638,12 +657,12 @@ contract MetaNodeStake is
      * @param _amount    Amount of MetaNode to be transferred
      */
     function _safeMetaNodeTransfer(address _to, uint256 _amount) internal {
-        uint256 MetaNodeBal = MetaNode.balanceOf(address(this));
+        uint256 MetaNodeBal = MetaNode.balanceOf(address(this));  // 检查合约余额
 
         if (_amount > MetaNodeBal) {
-            MetaNode.transfer(_to, MetaNodeBal);
+            MetaNode.transfer(_to, MetaNodeBal); // 如果余额不足，转移所有余额
         } else {
-            MetaNode.transfer(_to, _amount);
+            MetaNode.transfer(_to, _amount); // 如果余额充足，转移指定数量
         }
     }
 
