@@ -586,16 +586,27 @@ contract MetaNodeStake is
         updatePool(_pid);
 
         uint256 pendingMetaNode_ = user_.stAmount * pool_.accMetaNodePerST / (1 ether) - user_.finishedMetaNode + user_.pendingMetaNode;
-
+        uint256 actualTransfer = 0;
+        
         if(pendingMetaNode_ > 0) {
-            user_.pendingMetaNode = 0;
-            _safeMetaNodeTransfer(msg.sender, pendingMetaNode_);
+            uint256 MetaNodeBal = MetaNode.balanceOf(address(this));
+            actualTransfer = pendingMetaNode_ > MetaNodeBal ? MetaNodeBal : pendingMetaNode_;
+            if (actualTransfer > 0 ){
+                _safeMetaNodeTransfer(msg.sender, actualTransfer);
+            }
+             // 只更新实际转移的部分
+            user_.pendingMetaNode = pendingMetaNode_ - actualTransfer;
         }
 
-        user_.finishedMetaNode = user_.stAmount * pool_.accMetaNodePerST / (1 ether);
+        // 只在完全分发时更新finishedMetaNode
+        if(user_.pendingMetaNode == 0){
+            user_.finishedMetaNode = user_.stAmount * pool_.accMetaNodePerST / (1 ether);
+        }
 
-        emit Claim(msg.sender, _pid, pendingMetaNode_);
+        emit Claim(msg.sender, _pid, actualTransfer);
     }
+
+
 
     // ************************************** INTERNAL FUNCTION **************************************
 
@@ -659,11 +670,13 @@ contract MetaNodeStake is
     function _safeMetaNodeTransfer(address _to, uint256 _amount) internal {
         uint256 MetaNodeBal = MetaNode.balanceOf(address(this));  // 检查合约余额
 
-        if (_amount > MetaNodeBal) {
-            MetaNode.transfer(_to, MetaNodeBal); // 如果余额不足，转移所有余额
-        } else {
-            MetaNode.transfer(_to, _amount); // 如果余额充足，转移指定数量
-        }
+        require(MetaNodeBal >= _amount, "Insufficient MetaNode balance for full reward");
+        MetaNode.transfer(_to, _amount);
+        // if (_amount > MetaNodeBal) {
+        //     MetaNode.transfer(_to, MetaNodeBal); // 如果余额不足，转移所有余额
+        // } else {
+        //     MetaNode.transfer(_to, _amount); // 如果余额充足，转移指定数量
+        // }
     }
 
     /**
