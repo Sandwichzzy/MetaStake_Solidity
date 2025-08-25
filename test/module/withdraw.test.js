@@ -3,11 +3,6 @@ const {
   setupCompleteTestEnvironment,
   advanceBlocks,
 } = require("../../helpers/test-setup");
-const {
-  START_BLOCK,
-  END_BLOCK,
-  METANODE_PERBLOCK,
-} = require("../../helper-hardhat-config");
 
 describe("test unstake and withdraw function", () => {
   let contracts;
