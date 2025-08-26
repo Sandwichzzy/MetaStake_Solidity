@@ -34,6 +34,9 @@ module.exports = {
         attempts: 3,
         interval: 1000,
       },
+      sourcify: {
+        enabled: true,
+      },
     },
   },
   etherscan: {

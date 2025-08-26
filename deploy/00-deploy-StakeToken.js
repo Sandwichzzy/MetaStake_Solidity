@@ -25,7 +25,7 @@ module.exports = async ({ getNamedAccounts, deployments, run }) => {
     try {
       await run("verify:verify", {
         address: stakeToken.address,
-        constructorArguments: [],
+        constructorArguments: [deployer],
       });
       console.log("合约验证成功!");
     } catch (error) {
