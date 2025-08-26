@@ -1,17 +1,33 @@
 const {
   METANODE_PERBLOCK,
-  START_BLOCK,
-  END_BLOCK,
+  getNetworkConfig,
 } = require("../helper-hardhat-config");
 const { ethers } = require("hardhat");
 const { upgrades } = require("hardhat");
 
-module.exports = async ({ getNamedAccounts, deployments, run }) => {
+module.exports = async ({ getNamedAccounts, deployments, run, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const { deploy, save } = deployments;
+  const chainId = await getChainId();
 
   console.log("开始部署 MetaNodeStake 合约...");
   console.log("部署者地址:", deployer);
+  console.log("网络 Chain ID:", chainId);
+
+  // 根据网络获取配置
+  let START_BLOCK, END_BLOCK;
+  try {
+    const networkConfig = getNetworkConfig(parseInt(chainId));
+    START_BLOCK = networkConfig.START_BLOCK;
+    END_BLOCK = networkConfig.END_BLOCK;
+    console.log(`使用 ${networkConfig.name} 网络配置:`);
+    console.log("开始区块:", START_BLOCK);
+    console.log("结束区块:", END_BLOCK);
+  } catch (error) {
+    console.log("未找到网络配置，使用默认值");
+    START_BLOCK = 0;
+    END_BLOCK = 1000000;
+  }
 
   // 获取 StakeToken 地址
   const stakeTokenAddress = (await deployments.get("StakeTokenERC20")).address;
@@ -25,7 +41,7 @@ module.exports = async ({ getNamedAccounts, deployments, run }) => {
       stakeTokenAddress, // MetaNode token address (使用 StakeToken 地址)
       START_BLOCK, // startBlock - 开始区块
       END_BLOCK, // endBlock - 结束区块
-      METANODE_PERBLOCK, // MetaNodePerBlock - 每区块奖励 (1 MetaNode)
+      METANODE_PERBLOCK, // MetaNodePerBlock - 每区块奖励 (0.5 MetaNode)
     ],
     {
       kind: "uups", // 指定代理类型为 UUPS

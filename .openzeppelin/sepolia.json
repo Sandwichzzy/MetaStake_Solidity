@@ -15,6 +15,16 @@
       "address": "0x2fE7d540c2B34bD4a311Ca1d536dbB99d64b0577",
       "txHash": "0xb391e5af8ed123ce9f9c3439468aec203366475ab4804e7995703ff6037e94eb",
       "kind": "uups"
+    },
+    {
+      "address": "0x4d8998eAE546Bb76236B3C9DAA8DBFcE2b6E9769",
+      "txHash": "0xb78a1c8900224c75d416218592433283e6aecc2db56308ecc5de08a522abc4e1",
+      "kind": "uups"
+    },
+    {
+      "address": "0x8e0397fC7C7c86Ba0c407B797Be2faA3E14C2a1B",
+      "txHash": "0xbe21611df7d53c2bb2dd23de1fe3f9ad69e13ea195c789b921b24fd7a122dd45",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -619,6 +629,333 @@
               {
                 "label": "requests",
                 "type": "t_array(t_struct(UnstakeRequest)6027_storage)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.AccessControl": [
+            {
+              "contract": "AccessControlUpgradeable",
+              "label": "_roles",
+              "type": "t_mapping(t_bytes32,t_struct(RoleData)26_storage)",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:62",
+              "offset": 0,
+              "slot": "0"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21",
+              "offset": 0,
+              "slot": "0"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    },
+    "4c192a2028b7bb686005d5a86b1a6255e1366f8c7bf8684bc19037b3b822a664": {
+      "address": "0xFF431b2ec94CaC200442Fc4C6332e6e9094AB59B",
+      "txHash": "0x8819a1670a6680cd7ab50caa6c7c139ffc6b41022d0f6fd29f877296a50f0546",
+      "layout": {
+        "solcVersion": "0.8.22",
+        "storage": [
+          {
+            "label": "startBlock",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:86"
+          },
+          {
+            "label": "endBlock",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:88"
+          },
+          {
+            "label": "MetaNodePerBlock",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:92"
+          },
+          {
+            "label": "withdrawPaused",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_bool",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:94"
+          },
+          {
+            "label": "claimPaused",
+            "offset": 1,
+            "slot": "3",
+            "type": "t_bool",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:98"
+          },
+          {
+            "label": "MetaNode",
+            "offset": 2,
+            "slot": "3",
+            "type": "t_contract(IERC20)2446",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:99"
+          },
+          {
+            "label": "totalPoolWeight",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:101"
+          },
+          {
+            "label": "pool",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_array(t_struct(Pool)6878_storage)dyn_storage",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:101"
+          },
+          {
+            "label": "user",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(User)6894_storage))",
+            "contract": "MetaNodeStake",
+            "src": "contracts\\MetaNodeStake.sol:103"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)26_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AccessControlStorage)36_storage": {
+            "label": "struct AccessControlUpgradeable.AccessControlStorage",
+            "members": [
+              {
+                "label": "_roles",
+                "type": "t_mapping(t_bytes32,t_struct(RoleData)26_storage)",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(InitializableStorage)147_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(PausableStorage)298_storage": {
+            "label": "struct PausableUpgradeable.PausableStorage",
+            "members": [
+              {
+                "label": "_paused",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoleData)26_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "hasRole",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_array(t_struct(Pool)6878_storage)dyn_storage": {
+            "label": "struct MetaNodeStake.Pool[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(UnstakeRequest)6883_storage)dyn_storage": {
+            "label": "struct MetaNodeStake.UnstakeRequest[]",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20)2446": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_struct(User)6894_storage)": {
+            "label": "mapping(address => struct MetaNodeStake.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(User)6894_storage))": {
+            "label": "mapping(uint256 => mapping(address => struct MetaNodeStake.User))",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Pool)6878_storage": {
+            "label": "struct MetaNodeStake.Pool",
+            "members": [
+              {
+                "label": "stTokenAddress",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "poolWeight",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "lastRewardBlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "accMetaNodePerST",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "stTokenAmount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "minDepositAmount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "unstakeLockedBlocks",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_struct(UnstakeRequest)6883_storage": {
+            "label": "struct MetaNodeStake.UnstakeRequest",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "unlockBlocks",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(User)6894_storage": {
+            "label": "struct MetaNodeStake.User",
+            "members": [
+              {
+                "label": "stAmount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "finishedMetaNode",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "pendingMetaNode",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "requests",
+                "type": "t_array(t_struct(UnstakeRequest)6883_storage)dyn_storage",
                 "offset": 0,
                 "slot": "3"
               }
